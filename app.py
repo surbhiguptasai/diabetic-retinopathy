@@ -66,29 +66,31 @@ def home():
     finalArr = tf.expand_dims(finalArr, axis=0)
 
 
-    obj = s3.Object("model.h5") #.h5 file
-    body = obj.get()['Body'].read()
+    # obj = s3.Object("model.h5") #.h5 file
+    # body = obj.get()['Body'].read()
+    #
+    # file_access_property_list = h5py.h5p.create(h5py.h5p.FILE_ACCESS)
+    # file_access_property_list.set_fapl_core(backing_store=False)
+    # file_access_property_list.set_file_image(body)
+    #
+    # file_id_args = {
+    #      'fapl': file_access_property_list,
+    #      'flags': h5py.h5f.ACC_RDONLY,
+    #      'name': b'this should never matter',
+    #  }
+    # h5_file_args = {
+    #     'backing_store': False,
+    #     'driver': 'core',
+    #     'mode': 'r',
+    # }
+    #
+    # with contextlib.closing(h5py.h5f.open(**file_id_args)) as file_id:
+    #     with h5py.File(file_id, **h5_file_args) as h5_file:
+    #         loaded_model = load_model(h5_file)    #from keras.models
 
-    file_access_property_list = h5py.h5p.create(h5py.h5p.FILE_ACCESS)
-    file_access_property_list.set_fapl_core(backing_store=False)
-    file_access_property_list.set_file_image(body)
 
-    file_id_args = {
-         'fapl': file_access_property_list,
-         'flags': h5py.h5f.ACC_RDONLY,
-         'name': b'this should never matter',
-     }
-    h5_file_args = {
-        'backing_store': False,
-        'driver': 'core',
-        'mode': 'r',
-    }
-
-    with contextlib.closing(h5py.h5f.open(**file_id_args)) as file_id:
-        with h5py.File(file_id, **h5_file_args) as h5_file:
-            loaded_model = load_model(h5_file)    #from keras.models
-
-    pred = loaded_model.predict(finalArr)
+    model = tf.keras.models.load_model("./model.h5")
+    pred = model.predict(finalArr)
     pred=np.argmax(pred)
 
     return render_template('after.html',data=pred)
