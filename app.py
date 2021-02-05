@@ -54,13 +54,13 @@ def home():
 
     # img = load_img(io.BytesIO(object.get()['Body'].read()))
     # arr = img_to_array(img)
-    dim1 = arr.shape[0]
-    dim2 = arr.shape[1]
-    dim3 = arr.shape[2]
+    # dim1 = arr.shape[0]
+    # dim2 = arr.shape[1]
+    # dim3 = arr.shape[2]
     arr = cv2.resize(arr, (28,28))
-    dim1 = arr.shape[0]
-    dim2 = arr.shape[1]
-    dim3 = arr.shape[2]
+    # dim1 = arr.shape[0]
+    # dim2 = arr.shape[1]
+    # dim3 = arr.shape[2]
     arr = np.array(arr, dtype="float") / 255.0
     finalArr=np.array(arr)
     finalArr = tf.expand_dims(finalArr, axis=0)
